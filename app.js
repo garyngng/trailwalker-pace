@@ -2,7 +2,7 @@
   const RACE_YEAR = 2026;
   const RACE_DAY = 20;
   const START_HOUR = 8;
-  const START_MINUTE = 30;
+  const START_MINUTE = 0;
   const TZ = "Asia/Hong_Kong";
   const TOTAL_KM = 100;
   const RING = 2 * Math.PI * 52;
@@ -108,7 +108,7 @@
 
   function raceStartDate() {
     // Construct wall-clock start in Hong Kong as a local Date for comparisons.
-    // Use a fixed offset string so race day is always 08:30 HKT regardless of device TZ.
+    // Use a fixed offset string so race day is always 08:00 HKT regardless of device TZ.
     return new Date(`${RACE_YEAR}-11-${String(RACE_DAY).padStart(2, "0")}T${String(START_HOUR).padStart(2, "0")}:${String(START_MINUTE).padStart(2, "0")}:00+08:00`);
   }
 
