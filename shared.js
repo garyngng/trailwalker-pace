@@ -39,34 +39,36 @@ window.TrailwalkerShared = (() => {
   /**
    * Support waypoints — km placed on course; times interpolated by distance
    * between neighbouring official CPs.
-   * 馬鞍山公廁: between CP2–CP3 (Ma On Shan section)
-   * 飛鵝山觀景台: between CP3–CP4 (before Gilwell / CP4)
-   * 城門水塘4號燒烤: between CP5–CP6 (Shing Mun BBQ area)
+   *
+   * Fact-check vs Oxfam Trailwalker / MacLehose route:
+   * - CP3 企嶺下 → CP4 基維爾營：經馬鞍山山脊（馬鞍山公廁／燒烤場一帶）
+   * - CP4 基維爾營（飛鵝山）→ CP5 畢架山：經飛鵝山道／沙田坳／獅子亭（飛鵝山觀景台支援點）
+   * - CP6 走私坳 → CP7 鉛礦坳：經城門水塘燒烤場再上針山
    */
   const SUPPORT_WAYPOINTS = [
     {
       id: "wp-maonshan",
       code: "支援",
       name: "馬鞍山公廁",
-      km: 28.5,
+      km: 38.5,
       kind: "support",
-      note: "CP2→CP3 之間 · 距離插值",
+      note: "CP3→CP4 之間（馬鞍山段）· 距離插值 · 非 CP5–CP6",
     },
     {
       id: "wp-feingoshan",
       code: "支援",
       name: "飛鵝山觀景台",
-      km: 45.5,
+      km: 50.5,
       kind: "support",
-      note: "CP3→CP4 之間 · 距離插值",
+      note: "CP4→CP5 之間（飛鵝山道／沙田坳一帶）· 距離插值",
     },
     {
       id: "wp-shingmun",
       code: "支援",
       name: "城門水塘4號燒烤",
-      km: 57.0,
+      km: 64.0,
       kind: "support",
-      note: "CP5→CP6 之間 · 距離插值",
+      note: "CP6→CP7 之間（城門水塘燒烤場，上針山前）· 距離插值",
     },
   ];
 
