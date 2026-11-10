@@ -196,6 +196,104 @@ body {
   opacity: 0.45;
 }
 
+.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.page-nav a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--mist);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.page-nav a[aria-current="page"] {
+  border-color: rgba(183, 224, 122, 0.45);
+  background: rgba(183, 224, 122, 0.14);
+  color: var(--lime);
+}
+
+.page-nav a:hover,
+.page-nav a:focus-visible {
+  border-color: var(--sand);
+  color: var(--ink);
+  outline: none;
+}
+
+.support-row td {
+  background: rgba(232, 217, 184, 0.08);
+}
+
+.support-row td:first-child {
+  background: rgba(232, 217, 184, 0.12);
+}
+
+.live-board {
+  margin: 1.5rem 0 0;
+  animation: rise 0.7s ease-out 0.1s both;
+}
+
+.live-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+}
+
+@media (min-width: 560px) {
+  .live-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .live-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.live-card {
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(15, 36, 25, 0.5);
+}
+
+.live-card.hot {
+  border-color: rgba(183, 224, 122, 0.35);
+  background: rgba(78, 163, 110, 0.18);
+}
+
+.live-goal {
+  margin: 0 0 0.4rem;
+  color: var(--sand);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.live-body {
+  color: var(--ink);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.live-body small {
+  color: var(--muted);
+}
+
+footer a {
+  color: var(--lime);
+}
+
 main {
   max-width: 720px;
   margin: 0 auto;

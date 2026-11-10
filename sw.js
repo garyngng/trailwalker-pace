@@ -1,9 +1,12 @@
-const CACHE = "trailwalker-pace-v8";
+const CACHE = "trailwalker-pace-v9";
 const ASSETS = [
   "./",
   "./index.html",
+  "./support.html",
   "./styles.css",
   "./app.js",
+  "./support.js",
+  "./shared.js",
   "./manifest.webmanifest",
   "./icon.svg",
 ];
