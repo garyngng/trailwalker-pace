@@ -323,10 +323,12 @@
       (g) => `<th class="${g === 22 ? "highlight" : ""}">${g}h</th>`
     ).join("")}</tr>`;
 
-    tbody.innerHTML = CHECKPOINTS.map((cp) => {
+    tbody.innerHTML = CHECKPOINTS.map((cp, cpIndex) => {
       const times = TIMETABLE[cp.key];
+      const prevKm = cpIndex === 0 ? 0 : CHECKPOINTS[cpIndex - 1].km;
+      const legKm = Math.round((cp.km - prevKm) * 10) / 10;
       return `<tr>
-        <td>${cp.code}<br/><small style="color:var(--muted)">${cp.km}km</small></td>
+        <td>${cp.code}<br/><small style="color:var(--muted)">呢段 ${legKm} km</small></td>
         ${times
           .map((cum, i) => {
             const leg = segmentMinutes(cp.key, i);
