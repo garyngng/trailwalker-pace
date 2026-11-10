@@ -41,19 +41,11 @@ window.TrailwalkerShared = (() => {
    * between neighbouring official CPs.
    *
    * Fact-check vs Oxfam Trailwalker / MacLehose route:
-   * - CP3 企嶺下 → CP4 基維爾營：經馬鞍山山脊（馬鞍山公廁／燒烤場一帶）
-   * - CP4 基維爾營（飛鵝山）→ CP5 畢架山：經飛鵝山道／沙田坳／獅子亭（飛鵝山觀景台支援點）
+   * - CP4 基維爾營 → CP5 畢架山：飛鵝山道／沙田坳／獅子亭（飛鵝山觀景台）
+   * - CP5 畢架山 → CP6 走私坳：經大埔道、金山路、九龍水塘（馬騮山／金山公廁）
    * - CP6 走私坳 → CP7 鉛礦坳：經城門水塘燒烤場再上針山
    */
   const SUPPORT_WAYPOINTS = [
-    {
-      id: "wp-maonshan",
-      code: "支援",
-      name: "馬鞍山公廁",
-      km: 38.5,
-      kind: "support",
-      note: "CP3→CP4 之間（馬鞍山段）· 距離插值 · 非 CP5–CP6",
-    },
     {
       id: "wp-feingoshan",
       code: "支援",
@@ -61,6 +53,14 @@ window.TrailwalkerShared = (() => {
       km: 50.5,
       kind: "support",
       note: "CP4→CP5 之間（飛鵝山道／沙田坳一帶）· 距離插值",
+    },
+    {
+      id: "wp-kamshan",
+      code: "支援",
+      name: "馬騮山公共洗手間（金山公廁）",
+      km: 57.5,
+      kind: "support",
+      note: "CP5→CP6 之間（金山路／九龍水塘馬騮山一帶）· 距離插值",
     },
     {
       id: "wp-shingmun",
