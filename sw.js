@@ -1,4 +1,4 @@
-const CACHE = "trailwalker-pace-v3";
+const CACHE = "trailwalker-pace-v4";
 const ASSETS = [
   "./",
   "./index.html",

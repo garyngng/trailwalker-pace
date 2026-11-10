@@ -7,34 +7,67 @@
   const TOTAL_KM = 100;
   const RING = 2 * Math.PI * 52;
 
-  /** Elapsed minutes from start for each target finish (hours). 18h interpolated between 15h & 20h. */
-  const TARGETS = [15, 18, 20, 25, 30, 35, 40, 45];
+  /** Target finish brackets (hours). Mid values interpolated from official 15/20/25/30 table. */
+  const TARGETS = [18, 20, 22, 24, 26, 28];
 
   const TIMETABLE = {
     // minutes to reach each CP for each target (aligned with TARGETS)
-    cp1: [140, 164, 180, 195, 210, 240, 240, 360],
-    cp2: [215, 251, 275, 300, 345, 390, 420, 555],
-    cp3: [315, 375, 415, 465, 540, 600, 660, 840],
-    cp4: [440, 518, 570, 675, 810, 900, 1020, 1290],
-    cp5: [530, 614, 670, 825, 960, 1080, 1230, 1530],
-    cp6: [585, 675, 735, 870, 1050, 1170, 1320, 1690],
-    cp7: [695, 800, 870, 1050, 1290, 1470, 1650, 2050],
-    cp8: [775, 907, 995, 1215, 1470, 1680, 1920, 2290],
-    cp9: [840, 993, 1095, 1350, 1620, 1890, 2160, 2490],
-    finish: [900, 1080, 1200, 1500, 1800, 2100, 2400, 2690], // 45h finish = 44h50m
+    cp1: [164, 180, 186, 192, 198, 204],
+    cp2: [251, 275, 285, 295, 309, 327],
+    cp3: [375, 415, 435, 455, 480, 510],
+    cp4: [518, 570, 612, 654, 702, 756],
+    cp5: [614, 670, 732, 794, 852, 906],
+    cp6: [675, 735, 789, 843, 906, 978],
+    cp7: [800, 870, 942, 1014, 1098, 1194],
+    cp8: [907, 995, 1083, 1171, 1266, 1368],
+    cp9: [993, 1095, 1197, 1299, 1404, 1512],
+    finish: [1080, 1200, 1320, 1440, 1560, 1680],
+  };
+
+  /** Checkpoint food/drink from official 飲食補給表 — used to tease the next stop. */
+  const SUPPLIES = {
+    cp1: ["支裝水（800ml／1.25L）"],
+    cp2: ["桶裝水", "朱古力", "薑茶", "咖啡", "奶茶", "熱湯", "麵包", "香蕉", "寶礦力"],
+    cp3: ["桶裝水", "麥片", "薑茶", "咖啡", "熱茶", "熱湯", "麵包"],
+    cp4: ["桶裝水", "麥片", "朱古力", "薑茶", "咖啡", "熱茶", "熱湯", "麵包", "點心／蒸飯／蒸包"],
+    cp5: ["桶裝水", "麥片", "薑茶", "咖啡", "麵包", "柑"],
+    cp6: ["桶裝水", "麥片", "薑茶", "咖啡", "奶茶", "熱湯", "麵包"],
+    cp7: ["桶裝水", "麥片", "薑茶", "咖啡", "奶茶", "熱茶", "熱湯", "麵包", "杯麵"],
+    cp8: ["桶裝水", "麥片", "薑茶", "咖啡", "熱茶", "熱湯", "麵包", "點心／蒸飯／蒸包"],
+    cp9: ["桶裝水", "朱古力", "薑茶", "咖啡", "奶茶", "熱湯", "麵包"],
+    finish: ["桶裝水", "薑茶", "咖啡", "熱茶", "熱湯", "麵包"],
+  };
+
+  const HIGHLIGHTS = {
+    cp2: ["香蕉", "朱古力", "奶茶", "寶礦力"],
+    cp3: ["熱湯", "麥片", "熱茶"],
+    cp4: ["點心／蒸飯／蒸包", "朱古力", "熱湯"],
+    cp5: ["柑", "麥片"],
+    cp6: ["奶茶", "熱湯"],
+    cp7: ["杯麵", "奶茶", "熱湯"],
+    cp8: ["點心／蒸飯／蒸包", "熱湯", "熱茶"],
+    cp9: ["朱古力", "奶茶", "熱湯"],
+    finish: ["熱湯", "熱茶", "薑茶"],
+  };
+
+  /** Water stop on the way to the next CP after arriving here. */
+  const EN_ROUTE = {
+    // shown when motivating from previous point toward next
+    before_cp1: { name: "萬宜水庫東壩尾水站", items: ["桶裝水", "寶礦力"] },
+    before_cp7: { name: "針山腳水站", items: ["桶裝水", "寶礦力"] },
   };
 
   const CHECKPOINTS = [
-    { id: "cp1", code: "CP1", name: "一號檢查站", km: 10.2, key: "cp1" },
-    { id: "cp2", code: "CP2", name: "二號檢查站", km: 25.4, key: "cp2" },
-    { id: "cp3", code: "CP3", name: "三號檢查站", km: 34.1, key: "cp3" },
-    { id: "cp4", code: "CP4", name: "四號檢查站", km: 47.8, key: "cp4" },
-    { id: "cp5", code: "CP5", name: "五號檢查站", km: 55.1, key: "cp5" },
-    { id: "cp6", code: "CP6", name: "六號檢查站", km: 61.1, key: "cp6" },
-    { id: "cp7", code: "CP7", name: "七號檢查站", km: 73.1, key: "cp7" },
-    { id: "cp8", code: "CP8", name: "八號檢查站", km: 82.5, key: "cp8" },
-    { id: "cp9", code: "CP9", name: "九號檢查站", km: 93.1, key: "cp9" },
-    { id: "cp10", code: "CP10", name: "終點 Finish", km: 100, key: "finish" },
+    { id: "cp1", code: "CP1", name: "一號檢查站", km: 10.2, key: "cp1", enRouteKey: null },
+    { id: "cp2", code: "CP2", name: "二號檢查站", km: 25.4, key: "cp2", enRouteKey: null },
+    { id: "cp3", code: "CP3", name: "三號檢查站", km: 34.1, key: "cp3", enRouteKey: null },
+    { id: "cp4", code: "CP4", name: "四號檢查站", km: 47.8, key: "cp4", enRouteKey: null },
+    { id: "cp5", code: "CP5", name: "五號檢查站", km: 55.1, key: "cp5", enRouteKey: null },
+    { id: "cp6", code: "CP6", name: "六號檢查站", km: 61.1, key: "cp6", enRouteKey: null },
+    { id: "cp7", code: "CP7", name: "七號檢查站", km: 73.1, key: "cp7", enRouteKey: "before_cp7" },
+    { id: "cp8", code: "CP8", name: "八號檢查站", km: 82.5, key: "cp8", enRouteKey: null },
+    { id: "cp9", code: "CP9", name: "九號檢查站", km: 93.1, key: "cp9", enRouteKey: null },
+    { id: "cp10", code: "CP10", name: "終點 Finish", km: 100, key: "finish", enRouteKey: null },
   ];
 
   const els = {
@@ -53,6 +86,14 @@
     paceHeadline: document.getElementById("paceHeadline"),
     paceDetail: document.getElementById("paceDetail"),
     paceNext: document.getElementById("paceNext"),
+    hereSupply: document.getElementById("hereSupply"),
+    hereChips: document.getElementById("hereChips"),
+    lureCard: document.getElementById("lureCard"),
+    lureEyebrow: document.getElementById("lureEyebrow"),
+    lureTitle: document.getElementById("lureTitle"),
+    lureMeta: document.getElementById("lureMeta"),
+    lureChips: document.getElementById("lureChips"),
+    lureNote: document.getElementById("lureNote"),
     bracketList: document.getElementById("bracketList"),
     clearBtn: document.getElementById("clearBtn"),
     manualCp: document.getElementById("manualCp"),
@@ -181,7 +222,7 @@
     }
 
     if (!fasterGoal) {
-      // Faster than or equal to fastest (15h)
+      // Faster than or equal to fastest published target
       const best = rows[0];
       const ahead = best.targetMin - elapsedMin;
       return {
@@ -264,7 +305,7 @@
     const thead = els.paceTable.querySelector("thead");
     const tbody = els.paceTable.querySelector("tbody");
     thead.innerHTML = `<tr><th>檢查站</th>${TARGETS.map(
-      (g) => `<th class="${g === 18 ? "highlight" : ""}">${g}h</th>`
+      (g) => `<th class="${g === 22 ? "highlight" : ""}">${g}h</th>`
     ).join("")}</tr>`;
 
     tbody.innerHTML = CHECKPOINTS.map((cp) => {
@@ -273,7 +314,7 @@
         <td>${cp.code}<br/><small style="color:var(--muted)">${cp.km}km</small></td>
         ${times
           .map((m, i) => {
-            const cls = TARGETS[i] === 18 ? "highlight" : "";
+            const cls = TARGETS[i] === 22 ? "highlight" : "";
             return `<td class="${cls}">
               <span class="cell-elapsed">${minutesToShort(m)}</span>
               <span class="cell-eta">${formatEtaClock(m)}</span>
@@ -282,6 +323,48 @@
           .join("")}
       </tr>`;
     }).join("");
+  }
+
+  function chipHtml(items, highlightSet = null) {
+    return items
+      .map((item) => {
+        const isHot = highlightSet && highlightSet.has(item);
+        return `<span class="chip${isHot ? " hot" : ""}">${item}</span>`;
+      })
+      .join("");
+  }
+
+  function renderSupplies(cp) {
+    const here = SUPPLIES[cp.key] || [];
+    const hereHot = new Set(HIGHLIGHTS[cp.key] || []);
+    els.hereChips.innerHTML = chipHtml(here, hereHot);
+    els.hereSupply.hidden = here.length === 0;
+
+    const idx = CHECKPOINTS.findIndex((c) => c.id === cp.id);
+    const next = idx >= 0 && idx < CHECKPOINTS.length - 1 ? CHECKPOINTS[idx + 1] : null;
+
+    if (!next) {
+      els.lureEyebrow.textContent = "完賽獎勵";
+      els.lureTitle.textContent = "你已經到終點！";
+      els.lureMeta.textContent = "好好休息，食完熱湯再慶祝。";
+      els.lureChips.innerHTML = chipHtml(SUPPLIES.finish, new Set(HIGHLIGHTS.finish));
+      els.lureNote.textContent = "熱湯口味：番茄、忌廉蘑菇、薯仔。";
+      return;
+    }
+
+    const gapKm = Math.round((next.km - cp.km) * 10) / 10;
+    const nextItems = SUPPLIES[next.key] || [];
+    const nextHot = HIGHLIGHTS[next.key] || nextItems.slice(0, 3);
+    const hotSet = new Set(nextHot);
+    const enRoute = next.enRouteKey ? EN_ROUTE[next.enRouteKey] : null;
+
+    els.lureEyebrow.textContent = "下一站獎勵 · 衝！";
+    els.lureTitle.textContent = `${next.code} ${next.name}`;
+    els.lureMeta.textContent = `再行約 ${gapKm} km 就到 · 仲有：${nextHot.join("、")}`;
+    els.lureChips.innerHTML = chipHtml(nextItems, hotSet);
+    els.lureNote.textContent = enRoute
+      ? `途中仲有「${enRoute.name}」：${enRoute.items.join("、")}。熱湯口味：番茄、忌廉蘑菇、薯仔。`
+      : "熱湯口味：番茄、忌廉蘑菇、薯仔。";
   }
 
   function setActiveButton(id) {
@@ -316,6 +399,7 @@
     els.paceHeadline.textContent = analysis.headline;
     els.paceDetail.innerHTML = analysis.detail;
     els.paceNext.innerHTML = analysis.nextHtml;
+    renderSupplies(cp);
 
     els.bracketList.innerHTML = analysis.rows
       .map((row) => {
@@ -363,8 +447,8 @@
     const start = raceStartDate();
     const presets = {
       "18h-cp5": { id: "cp5", minutes: 614 },
-      "15h-cp3": { id: "cp3", minutes: 315 },
-      "25h-cp7": { id: "cp7", minutes: 1050 },
+      "22h-cp4": { id: "cp4", minutes: 612 },
+      "26h-cp7": { id: "cp7", minutes: 1098 },
     };
     const preset = presets[name];
     if (!preset) return;

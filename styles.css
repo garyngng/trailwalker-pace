@@ -482,6 +482,72 @@ main {
   font-size: 0.92rem;
 }
 
+.supply-card,
+.lure-card {
+  margin-top: 0.85rem;
+  padding: 1rem 1.05rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(15, 36, 25, 0.5);
+}
+
+.lure-card {
+  border-color: rgba(232, 217, 184, 0.35);
+  background:
+    linear-gradient(150deg, rgba(232, 217, 184, 0.14), rgba(47, 107, 74, 0.28));
+}
+
+.lure-card h3 {
+  margin: 0.3rem 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.lure-meta {
+  margin: 0 0 0.7rem;
+  color: var(--mist);
+  font-size: 0.92rem;
+}
+
+.lure-note {
+  margin: 0.7rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.supply-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(15, 36, 25, 0.55);
+  color: var(--mist);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.chip.hot {
+  border-color: rgba(232, 217, 184, 0.45);
+  background: rgba(232, 217, 184, 0.16);
+  color: var(--sand);
+  font-weight: 700;
+}
+
+.supply-chips.highlight .chip.hot {
+  border-color: rgba(183, 224, 122, 0.5);
+  background: rgba(183, 224, 122, 0.18);
+  color: var(--lime);
+}
+
 .bracket-list {
   display: grid;
   gap: 0.4rem;
