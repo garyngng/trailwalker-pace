@@ -7,22 +7,24 @@
   const TOTAL_KM = 100;
   const RING = 2 * Math.PI * 52;
 
-  /** Target finish brackets (hours). Mid values interpolated from official 15/20/25/30 table. */
-  const TARGETS = [18, 20, 22, 24, 26, 28];
+  /** Target finish brackets (hours). 18h interpolated between 15h & 20h. */
+  const TARGETS = [15, 18, 20, 25, 30, 35, 40, 45];
 
+  /** Cumulative minutes from start to each CP (aligned with TARGETS). */
   const TIMETABLE = {
-    // minutes to reach each CP for each target (aligned with TARGETS)
-    cp1: [164, 180, 186, 192, 198, 204],
-    cp2: [251, 275, 285, 295, 309, 327],
-    cp3: [375, 415, 435, 455, 480, 510],
-    cp4: [518, 570, 612, 654, 702, 756],
-    cp5: [614, 670, 732, 794, 852, 906],
-    cp6: [675, 735, 789, 843, 906, 978],
-    cp7: [800, 870, 942, 1014, 1098, 1194],
-    cp8: [907, 995, 1083, 1171, 1266, 1368],
-    cp9: [993, 1095, 1197, 1299, 1404, 1512],
-    finish: [1080, 1200, 1320, 1440, 1560, 1680],
+    cp1: [140, 164, 180, 195, 210, 240, 240, 360],
+    cp2: [215, 251, 275, 300, 345, 390, 420, 555],
+    cp3: [315, 375, 415, 465, 540, 600, 660, 840],
+    cp4: [440, 518, 570, 675, 810, 900, 1020, 1290],
+    cp5: [530, 614, 670, 825, 960, 1080, 1230, 1530],
+    cp6: [585, 675, 735, 870, 1050, 1170, 1320, 1690],
+    cp7: [695, 800, 870, 1050, 1290, 1470, 1650, 2050],
+    cp8: [775, 907, 995, 1215, 1470, 1680, 1920, 2290],
+    cp9: [840, 993, 1095, 1350, 1620, 1890, 2160, 2490],
+    finish: [900, 1080, 1200, 1500, 1800, 2100, 2400, 2690], // 45h finish = 44h50m
   };
+
+  const CP_KEYS = ["cp1", "cp2", "cp3", "cp4", "cp5", "cp6", "cp7", "cp8", "cp9", "finish"];
 
   /** Checkpoint food/drink from official 飲食補給表 — used to tease the next stop. */
   const SUPPLIES = {
@@ -150,6 +152,19 @@
     const h = Math.floor(abs / 60);
     const m = abs % 60;
     return `${h}h ${String(m).padStart(2, "0")}m`;
+  }
+
+  /** Segment minutes for this CP (from previous CP / start). */
+  function segmentMinutes(cpKey, targetIndex) {
+    const idx = CP_KEYS.indexOf(cpKey);
+    const cum = TIMETABLE[cpKey][targetIndex];
+    if (idx <= 0) return cum;
+    const prevKey = CP_KEYS[idx - 1];
+    return cum - TIMETABLE[prevKey][targetIndex];
+  }
+
+  function minutesOnlyLabel(totalMinutes) {
+    return `${Math.round(totalMinutes)} 分鐘`;
   }
 
   function formatEtaClock(elapsedMin, start = raceStartDate()) {
@@ -305,7 +320,7 @@
     const thead = els.paceTable.querySelector("thead");
     const tbody = els.paceTable.querySelector("tbody");
     thead.innerHTML = `<tr><th>檢查站</th>${TARGETS.map(
-      (g) => `<th class="${g === 22 ? "highlight" : ""}">${g}h</th>`
+      (g) => `<th class="${g === 18 ? "highlight" : ""}">${g}h</th>`
     ).join("")}</tr>`;
 
     tbody.innerHTML = CHECKPOINTS.map((cp) => {
@@ -313,11 +328,12 @@
       return `<tr>
         <td>${cp.code}<br/><small style="color:var(--muted)">${cp.km}km</small></td>
         ${times
-          .map((m, i) => {
-            const cls = TARGETS[i] === 22 ? "highlight" : "";
+          .map((cum, i) => {
+            const leg = segmentMinutes(cp.key, i);
+            const cls = TARGETS[i] === 18 ? "highlight" : "";
             return `<td class="${cls}">
-              <span class="cell-elapsed">${minutesToShort(m)}</span>
-              <span class="cell-eta">${formatEtaClock(m)}</span>
+              <span class="cell-elapsed">${minutesOnlyLabel(leg)}</span>
+              <span class="cell-eta">${formatEtaClock(cum)}</span>
             </td>`;
           })
           .join("")}
@@ -413,7 +429,7 @@
             : row.goal === analysis.hitGoal;
         return `<div class="bracket-row ${hit ? "hit" : ""}">
           <span class="goal">${row.goal}h</span>
-          <span class="target">參考 ${minutesToShort(row.targetMin)} · ${formatEtaClock(row.targetMin)}</span>
+          <span class="target">呢段 ${minutesOnlyLabel(segmentMinutes(cp.key, row.index))} · 到站 ${formatEtaClock(row.targetMin)}</span>
           <span class="delta ${fast ? "fast" : "slow"}">${label}</span>
         </div>`;
       })
@@ -447,8 +463,8 @@
     const start = raceStartDate();
     const presets = {
       "18h-cp5": { id: "cp5", minutes: 614 },
-      "22h-cp4": { id: "cp4", minutes: 612 },
-      "26h-cp7": { id: "cp7", minutes: 1098 },
+      "20h-cp3": { id: "cp3", minutes: 415 },
+      "25h-cp7": { id: "cp7", minutes: 1050 },
     };
     const preset = presets[name];
     if (!preset) return;
