@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a3a2a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <title>毅行者配速 · Trailwalker Pace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="eyebrow">Oxfam Trailwalker · 2026.11.20</p>
+    <h1>毅行者<span>配速</span></h1>
+    <p class="tagline">撳檢查站，即時計公里同目標時段</p>
+    <div class="start-chip">
+      <span class="dot"></span>
+      <span>出發 <strong>08:30</strong></span>
+      <span class="sep">·</span>
+      <span id="liveClock">--:--:--</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="cp-section" aria-labelledby="cpHeading">
+      <div class="section-head">
+        <h2 id="cpHeading">到達檢查站</h2>
+        <p>撳 CP 會攞而家電話時間，計你行到邊同目標範圍</p>
+      </div>
+      <div class="cp-grid" id="cpGrid" role="group" aria-label="檢查站"></div>
+    </section>
+
+    <section class="result" id="result" hidden>
+      <div class="result-top">
+        <div>
+          <p class="result-label" id="resultCpLabel">CP1</p>
+          <h2 id="resultTitle">到達結果</h2>
+        </div>
+        <button type="button" class="ghost-btn" id="clearBtn">清除</button>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-label">到達時間</span>
+          <strong id="arrivalTime">—</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">已用時間</span>
+          <strong id="elapsedTime">—</strong>
+        </div>
+      </div>
+
+      <div class="distance-block">
+        <div class="km-ring" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <circle class="track" cx="60" cy="60" r="52" />
+            <circle class="progress" id="kmProgress" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="km-center">
+            <strong id="kmDone">0</strong>
+            <span>公里</span>
+          </div>
+        </div>
+        <div class="distance-meta">
+          <p><span>剩餘</span> <strong id="kmLeft">100</strong> km</p>
+          <p><span>全程</span> <strong>100</strong> km</p>
+          <p><span>累積進度</span> <strong id="pctDone">0%</strong></p>
+        </div>
+      </div>
+
+      <div class="pace-card" id="paceCard">
+        <p class="pace-eyebrow">而家目標範圍</p>
+        <h3 id="paceHeadline">—</h3>
+        <p class="pace-detail" id="paceDetail">—</p>
+        <div class="pace-next" id="paceNext"></div>
+      </div>
+
+      <div class="bracket-list" id="bracketList" aria-label="各目標到達時間"></div>
+    </section>
+
+    <section class="manual-section">
+      <details>
+        <summary>手動輸入到達時間（測試用）</summary>
+        <div class="manual-form">
+          <label>
+            檢查站
+            <select id="manualCp"></select>
+          </label>
+          <label>
+            到達時間
+            <input type="datetime-local" id="manualTime" />
+          </label>
+          <button type="button" class="primary-btn" id="manualSubmit">計算</button>
+        </div>
+      </details>
+    </section>
+
+    <section class="table-section">
+      <div class="section-head">
+        <h2>參考時間表</h2>
+        <p>已加入 18 小時分段（由 15h／20h 插值）</p>
+      </div>
+      <div class="table-wrap">
+        <table id="paceTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="footnote">以上時間表只供參考，各隊請按隊員體能及預計休息時間自行調節。</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Trailwalker Pace · 100km · 本地儲存你嘅紀錄</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

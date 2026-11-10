@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Trailwalker">
+  <rect width="128" height="128" rx="28" fill="#163326"/>
+  <path d="M18 92 L48 48 L68 72 L88 36 L110 92 Z" fill="#2f6b4a"/>
+  <path d="M18 92 L48 48 L68 72 L88 36 L110 92 Z" fill="none" stroke="#b7e07a" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="96" cy="28" r="8" fill="#e8d9b8"/>
+</svg>
