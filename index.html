@@ -19,22 +19,53 @@
   <div class="atmosphere" aria-hidden="true"></div>
 
   <header class="hero">
-    <p class="eyebrow">Oxfam Trailwalker · 2026.11.20</p>
+    <p class="eyebrow">Oxfam Trailwalker · 2026.11.20 · <span class="test-badge">測試版</span></p>
     <h1>毅行者<span>配速</span></h1>
-    <p class="tagline">撳檢查站，即時計公里同目標時段</p>
+    <p class="tagline">可輸入出發同到達時間試計目標時段</p>
     <div class="start-chip">
       <span class="dot"></span>
-      <span>出發 <strong>08:30</strong></span>
+      <span>正式出發 <strong>08:30</strong></span>
       <span class="sep">·</span>
       <span id="liveClock">--:--:--</span>
     </div>
   </header>
 
   <main>
+    <section class="test-panel" aria-labelledby="testHeading">
+      <div class="section-head">
+        <h2 id="testHeading">測試模式</h2>
+        <p>自己填出發時間同到達時間，即刻睇你喺邊個目標範圍</p>
+      </div>
+      <div class="manual-form test-form">
+        <label>
+          檢查站
+          <select id="manualCp"></select>
+        </label>
+        <label>
+          出發時間
+          <input type="datetime-local" id="manualStart" />
+        </label>
+        <label>
+          到達時間
+          <input type="datetime-local" id="manualTime" />
+        </label>
+        <div class="test-actions">
+          <button type="button" class="primary-btn" id="manualSubmit">計算配速</button>
+          <button type="button" class="ghost-btn" id="fillRaceDefault">填正式賽日 08:30</button>
+        </div>
+        <div class="preset-row" role="group" aria-label="快速示範">
+          <span class="preset-label">快速示範</span>
+          <button type="button" class="preset-btn" data-preset="18h-cp5">CP5 · 約 18h</button>
+          <button type="button" class="preset-btn" data-preset="15h-cp3">CP3 · 約 15h</button>
+          <button type="button" class="preset-btn" data-preset="25h-cp7">CP7 · 約 25h</button>
+        </div>
+      </div>
+    </section>
+
     <section class="cp-section" aria-labelledby="cpHeading">
       <div class="section-head">
-        <h2 id="cpHeading">到達檢查站</h2>
-        <p>撳 CP 會攞而家電話時間，計你行到邊同目標範圍</p>
+        <h2 id="cpHeading">比賽日即撳 CP</h2>
+        <p>撳 CP 會攞而家電話時間，對正式出發 08:30 計</p>
       </div>
       <div class="cp-grid" id="cpGrid" role="group" aria-label="檢查站"></div>
     </section>
@@ -48,7 +79,11 @@
         <button type="button" class="ghost-btn" id="clearBtn">清除</button>
       </div>
 
-      <div class="stat-row">
+      <div class="stat-row three">
+        <div class="stat">
+          <span class="stat-label">出發時間</span>
+          <strong id="startTime">—</strong>
+        </div>
         <div class="stat">
           <span class="stat-label">到達時間</span>
           <strong id="arrivalTime">—</strong>
@@ -85,23 +120,6 @@
       </div>
 
       <div class="bracket-list" id="bracketList" aria-label="各目標到達時間"></div>
-    </section>
-
-    <section class="manual-section">
-      <details>
-        <summary>手動輸入到達時間（測試用）</summary>
-        <div class="manual-form">
-          <label>
-            檢查站
-            <select id="manualCp"></select>
-          </label>
-          <label>
-            到達時間
-            <input type="datetime-local" id="manualTime" />
-          </label>
-          <button type="button" class="primary-btn" id="manualSubmit">計算</button>
-        </div>
-      </details>
     </section>
 
     <section class="table-section">

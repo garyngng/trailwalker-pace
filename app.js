@@ -43,6 +43,7 @@
     result: document.getElementById("result"),
     resultCpLabel: document.getElementById("resultCpLabel"),
     resultTitle: document.getElementById("resultTitle"),
+    startTime: document.getElementById("startTime"),
     arrivalTime: document.getElementById("arrivalTime"),
     elapsedTime: document.getElementById("elapsedTime"),
     kmDone: document.getElementById("kmDone"),
@@ -55,8 +56,10 @@
     bracketList: document.getElementById("bracketList"),
     clearBtn: document.getElementById("clearBtn"),
     manualCp: document.getElementById("manualCp"),
+    manualStart: document.getElementById("manualStart"),
     manualTime: document.getElementById("manualTime"),
     manualSubmit: document.getElementById("manualSubmit"),
+    fillRaceDefault: document.getElementById("fillRaceDefault"),
     paceTable: document.getElementById("paceTable"),
   };
 
@@ -64,6 +67,10 @@
     // Construct wall-clock start in Hong Kong as a local Date for comparisons.
     // Use a fixed offset string so race day is always 08:30 HKT regardless of device TZ.
     return new Date(`${RACE_YEAR}-11-${String(RACE_DAY).padStart(2, "0")}T${String(START_HOUR).padStart(2, "0")}:${String(START_MINUTE).padStart(2, "0")}:00+08:00`);
+  }
+
+  function addMinutes(date, minutes) {
+    return new Date(date.getTime() + minutes * 60000);
   }
 
   function formatClock(date) {
@@ -248,8 +255,8 @@
     });
   }
 
-  function showResult(cp, arrival) {
-    const start = raceStartDate();
+  function showResult(cp, arrival, startOverride = null) {
+    const start = startOverride || raceStartDate();
     const elapsed = elapsedMinutes(arrival, start);
     const analysis = analyzePace(cp, elapsed);
     const pct = Math.min(100, (cp.km / TOTAL_KM) * 100);
@@ -258,6 +265,7 @@
     els.result.hidden = false;
     els.resultCpLabel.textContent = cp.code;
     els.resultTitle.textContent = cp.name;
+    els.startTime.textContent = formatDateTime(start);
     els.arrivalTime.textContent = formatDateTime(arrival);
     els.elapsedTime.textContent =
       elapsed < 0
@@ -296,13 +304,40 @@
     try {
       localStorage.setItem(
         "trailwalker-last",
-        JSON.stringify({ id: cp.id, arrival: arrival.toISOString() })
+        JSON.stringify({
+          id: cp.id,
+          arrival: arrival.toISOString(),
+          start: start.toISOString(),
+        })
       );
     } catch (_) {
       /* ignore */
     }
 
     els.result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function fillRaceDefaults() {
+    const start = raceStartDate();
+    els.manualStart.value = toDatetimeLocalValue(start);
+    // Default arrival: race start + 10h for a mid-pack feel
+    els.manualTime.value = toDatetimeLocalValue(addMinutes(start, 600));
+  }
+
+  function applyPreset(name) {
+    const start = raceStartDate();
+    const presets = {
+      "18h-cp5": { id: "cp5", minutes: 614 },
+      "15h-cp3": { id: "cp3", minutes: 315 },
+      "25h-cp7": { id: "cp7", minutes: 1050 },
+    };
+    const preset = presets[name];
+    if (!preset) return;
+    els.manualCp.value = preset.id;
+    els.manualStart.value = toDatetimeLocalValue(start);
+    els.manualTime.value = toDatetimeLocalValue(addMinutes(start, preset.minutes));
+    const cp = CHECKPOINTS.find((c) => c.id === preset.id);
+    showResult(cp, addMinutes(start, preset.minutes), start);
   }
 
   function clearResult() {
@@ -347,7 +382,8 @@
       const data = JSON.parse(raw);
       const cp = CHECKPOINTS.find((c) => c.id === data.id);
       if (!cp || !data.arrival) return;
-      showResult(cp, new Date(data.arrival));
+      const start = data.start ? new Date(data.start) : raceStartDate();
+      showResult(cp, new Date(data.arrival), start);
     } catch (_) {
       /* ignore */
     }
@@ -359,26 +395,44 @@
   tickClock();
   setInterval(tickClock, 1000);
 
-  els.manualTime.value = toDatetimeLocalValue(new Date());
+  fillRaceDefaults();
+  // Prefer a realistic demo arrival on first load if nothing stored
+  if (!localStorage.getItem("trailwalker-last")) {
+    els.manualCp.value = "cp5";
+    els.manualTime.value = toDatetimeLocalValue(addMinutes(raceStartDate(), 614));
+  }
 
   els.cpGrid.addEventListener("click", (e) => {
     const btn = e.target.closest(".cp-btn");
     if (!btn) return;
     const cp = CHECKPOINTS.find((c) => c.id === btn.dataset.id);
     if (!cp) return;
-    showResult(cp, new Date());
+    showResult(cp, new Date(), raceStartDate());
   });
 
   els.clearBtn.addEventListener("click", clearResult);
 
+  els.fillRaceDefault.addEventListener("click", () => {
+    fillRaceDefaults();
+  });
+
+  document.querySelectorAll(".preset-btn").forEach((btn) => {
+    btn.addEventListener("click", () => applyPreset(btn.dataset.preset));
+  });
+
   els.manualSubmit.addEventListener("click", () => {
     const cp = CHECKPOINTS.find((c) => c.id === els.manualCp.value);
+    const start = parseDatetimeLocalAsHKT(els.manualStart.value);
     const arrival = parseDatetimeLocalAsHKT(els.manualTime.value);
-    if (!cp || !arrival || Number.isNaN(arrival.getTime())) {
-      alert("請選擇檢查站同有效時間");
+    if (!cp || !start || !arrival || Number.isNaN(start.getTime()) || Number.isNaN(arrival.getTime())) {
+      alert("請選擇檢查站，並輸入有效嘅出發同到達時間");
       return;
     }
-    showResult(cp, arrival);
+    if (arrival.getTime() < start.getTime()) {
+      alert("到達時間唔可以早過出發時間");
+      return;
+    }
+    showResult(cp, arrival, start);
   });
 
   restoreLast();

@@ -78,6 +78,72 @@ body {
   font-weight: 500;
 }
 
+.test-badge {
+  display: inline-block;
+  margin-left: 0.15rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(232, 217, 184, 0.18);
+  color: var(--sand);
+  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+  vertical-align: 0.08em;
+}
+
+.test-panel {
+  margin-bottom: 1.6rem;
+  padding: 1.1rem 1.05rem 1.15rem;
+  border-radius: 24px;
+  border: 1px solid rgba(183, 224, 122, 0.28);
+  background:
+    linear-gradient(160deg, rgba(78, 163, 110, 0.22), rgba(15, 36, 25, 0.55));
+  animation: rise 0.7s ease-out 0.04s both;
+}
+
+.test-form {
+  margin-top: 0.85rem;
+}
+
+.test-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  padding-top: 0.35rem;
+}
+
+.preset-label {
+  width: 100%;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.preset-btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: rgba(15, 36, 25, 0.55);
+  color: var(--mist);
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.preset-btn:hover,
+.preset-btn:focus-visible {
+  border-color: var(--lime);
+  color: var(--ink);
+  outline: none;
+}
+
 .hero h1 {
   margin: 0;
   font-family: var(--font-display);
@@ -278,6 +344,16 @@ main {
   margin-bottom: 1.1rem;
 }
 
+.stat-row.three {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 520px) {
+  .stat-row.three {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
 .stat {
   padding: 0.85rem 0.9rem;
   border-radius: 14px;
@@ -450,28 +526,9 @@ main {
   color: var(--danger);
 }
 
-.manual-section {
-  margin-top: 1.4rem;
-  animation: rise 0.7s ease-out 0.12s both;
-}
-
-.manual-section details {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 0.85rem 1rem;
-  background: rgba(15, 36, 25, 0.4);
-}
-
-.manual-section summary {
-  cursor: pointer;
-  color: var(--mist);
-  font-weight: 500;
-}
-
 .manual-form {
   display: grid;
   gap: 0.75rem;
-  margin-top: 0.9rem;
 }
 
 .manual-form label {
