@@ -610,6 +610,28 @@ td.highlight {
   font-weight: 700;
 }
 
+.cell-elapsed,
+.cell-eta {
+  display: block;
+  line-height: 1.25;
+}
+
+.cell-elapsed {
+  font-weight: 700;
+}
+
+.cell-eta {
+  margin-top: 0.15rem;
+  color: var(--sand);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+td.highlight .cell-eta {
+  color: var(--lime);
+}
+
 td:first-child,
 th:first-child {
   text-align: left;

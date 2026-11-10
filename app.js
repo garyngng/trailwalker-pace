@@ -111,6 +111,38 @@
     return `${h}h ${String(m).padStart(2, "0")}m`;
   }
 
+  function formatEtaClock(elapsedMin, start = raceStartDate()) {
+    const arrival = addMinutes(start, elapsedMin);
+    const clock = new Intl.DateTimeFormat("en-GB", {
+      timeZone: TZ,
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(arrival);
+
+    const startDay = new Intl.DateTimeFormat("en-CA", {
+      timeZone: TZ,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(start);
+    const arrivalDay = new Intl.DateTimeFormat("en-CA", {
+      timeZone: TZ,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(arrival);
+
+    const dayDiff = Math.round(
+      (new Date(`${arrivalDay}T12:00:00+08:00`).getTime() -
+        new Date(`${startDay}T12:00:00+08:00`).getTime()) /
+        86400000
+    );
+
+    if (dayDiff <= 0) return clock;
+    return `${clock} (+${dayDiff})`;
+  }
+
   function elapsedMinutes(arrival, start = raceStartDate()) {
     return (arrival.getTime() - start.getTime()) / 60000;
   }
@@ -240,10 +272,13 @@
       return `<tr>
         <td>${cp.code}<br/><small style="color:var(--muted)">${cp.km}km</small></td>
         ${times
-          .map(
-            (m, i) =>
-              `<td class="${TARGETS[i] === 18 ? "highlight" : ""}">${minutesToShort(m)}</td>`
-          )
+          .map((m, i) => {
+            const cls = TARGETS[i] === 18 ? "highlight" : "";
+            return `<td class="${cls}">
+              <span class="cell-elapsed">${minutesToShort(m)}</span>
+              <span class="cell-eta">${formatEtaClock(m)}</span>
+            </td>`;
+          })
           .join("")}
       </tr>`;
     }).join("");
@@ -294,7 +329,7 @@
             : row.goal === analysis.hitGoal;
         return `<div class="bracket-row ${hit ? "hit" : ""}">
           <span class="goal">${row.goal}h</span>
-          <span class="target">參考 ${minutesToShort(row.targetMin)}</span>
+          <span class="target">參考 ${minutesToShort(row.targetMin)} · ${formatEtaClock(row.targetMin)}</span>
           <span class="delta ${fast ? "fast" : "slow"}">${label}</span>
         </div>`;
       })
