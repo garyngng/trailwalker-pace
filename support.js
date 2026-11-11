@@ -84,7 +84,7 @@
     els.bracketList.innerHTML = S.TARGETS.map((goal, i) => {
       const leg = S.segmentMinutesFromRoute(route, index, i);
       const cum = point.times[i];
-      return `<div class="bracket-row ${goal === 22 ? "hit" : ""}">
+      return `<div class="bracket-row">
         <span class="goal">${goal}h</span>
         <span class="target">呢段 ${S.minutesOnlyLabel(leg)} · 到站 ${S.formatEtaClock(cum)}</span>
         <span class="delta">${cum}′ 累積</span>
@@ -123,7 +123,7 @@
           body = `已過：${at.name}<br/>下一站：${next.name}<br/><small>預計到站 ${S.formatEtaClock(next.times[i])}</small>`;
         }
       }
-      return `<div class="live-card ${goal === 22 ? "hot" : ""}">
+      return `<div class="live-card">
         <p class="live-goal">${goal} 小時目標</p>
         <div class="live-body">${body}</div>
       </div>`;
