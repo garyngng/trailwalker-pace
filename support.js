@@ -39,8 +39,8 @@
         const rowClass = point.kind === "support" ? "support-row" : "";
         const label =
           point.kind === "support"
-            ? `${point.name}<br/><small style="color:var(--sand)">支援 · 呢段 ${legKm} km · 累積 ${point.km} km</small>`
-            : `${point.code} ${point.name}<br/><small style="color:var(--muted)">呢段 ${legKm} km · 累積 ${point.km} km</small>`;
+            ? `${point.name}<br/><small style="color:var(--sand)">支援點 · 呢段 ${legKm} km · 累積 ${point.km} km</small>`
+            : `${point.code} · ${point.name}<br/><small style="color:var(--muted)">呢段 ${legKm} km · 累積 ${point.km} km</small>`;
 
         return `<tr class="${rowClass}" data-index="${index}">
           <td>${label}</td>

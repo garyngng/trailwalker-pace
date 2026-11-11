@@ -24,16 +24,16 @@ window.TrailwalkerShared = (() => {
   };
 
   const OFFICIAL_CPS = [
-    { id: "cp1", code: "CP1", name: "一號檢查站", km: 10.2, key: "cp1", kind: "official" },
-    { id: "cp2", code: "CP2", name: "二號檢查站", km: 25.4, key: "cp2", kind: "official" },
-    { id: "cp3", code: "CP3", name: "三號檢查站", km: 34.1, key: "cp3", kind: "official" },
-    { id: "cp4", code: "CP4", name: "四號檢查站", km: 47.8, key: "cp4", kind: "official" },
-    { id: "cp5", code: "CP5", name: "五號檢查站", km: 55.1, key: "cp5", kind: "official" },
-    { id: "cp6", code: "CP6", name: "六號檢查站", km: 61.1, key: "cp6", kind: "official" },
-    { id: "cp7", code: "CP7", name: "七號檢查站", km: 73.1, key: "cp7", kind: "official" },
-    { id: "cp8", code: "CP8", name: "八號檢查站", km: 82.5, key: "cp8", kind: "official" },
-    { id: "cp9", code: "CP9", name: "九號檢查站", km: 93.1, key: "cp9", kind: "official" },
-    { id: "cp10", code: "CP10", name: "終點 Finish", km: 100, key: "finish", kind: "official" },
+    { id: "cp1", code: "CP1", name: "西灣", km: 10.2, key: "cp1", kind: "official" },
+    { id: "cp2", code: "CP2", name: "北潭坳", km: 25.4, key: "cp2", kind: "official" },
+    { id: "cp3", code: "CP3", name: "企嶺下", km: 34.1, key: "cp3", kind: "official" },
+    { id: "cp4", code: "CP4", name: "基維爾營", km: 47.8, key: "cp4", kind: "official" },
+    { id: "cp5", code: "CP5", name: "畢架山", km: 55.1, key: "cp5", kind: "official" },
+    { id: "cp6", code: "CP6", name: "走私坳", km: 61.1, key: "cp6", kind: "official" },
+    { id: "cp7", code: "CP7", name: "鉛礦坳", km: 73.1, key: "cp7", kind: "official" },
+    { id: "cp8", code: "CP8", name: "大帽山", km: 82.5, key: "cp8", kind: "official" },
+    { id: "cp9", code: "CP9", name: "大欖涌", km: 93.1, key: "cp9", kind: "official" },
+    { id: "cp10", code: "CP10", name: "哈羅（終點）", km: 100, key: "finish", kind: "official" },
   ];
 
   /**

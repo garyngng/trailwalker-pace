@@ -60,16 +60,16 @@
   };
 
   const CHECKPOINTS = [
-    { id: "cp1", code: "CP1", name: "一號檢查站", km: 10.2, key: "cp1", enRouteKey: null },
-    { id: "cp2", code: "CP2", name: "二號檢查站", km: 25.4, key: "cp2", enRouteKey: null },
-    { id: "cp3", code: "CP3", name: "三號檢查站", km: 34.1, key: "cp3", enRouteKey: null },
-    { id: "cp4", code: "CP4", name: "四號檢查站", km: 47.8, key: "cp4", enRouteKey: null },
-    { id: "cp5", code: "CP5", name: "五號檢查站", km: 55.1, key: "cp5", enRouteKey: null },
-    { id: "cp6", code: "CP6", name: "六號檢查站", km: 61.1, key: "cp6", enRouteKey: null },
-    { id: "cp7", code: "CP7", name: "七號檢查站", km: 73.1, key: "cp7", enRouteKey: "before_cp7" },
-    { id: "cp8", code: "CP8", name: "八號檢查站", km: 82.5, key: "cp8", enRouteKey: null },
-    { id: "cp9", code: "CP9", name: "九號檢查站", km: 93.1, key: "cp9", enRouteKey: null },
-    { id: "cp10", code: "CP10", name: "終點 Finish", km: 100, key: "finish", enRouteKey: null },
+    { id: "cp1", code: "CP1", name: "西灣", km: 10.2, key: "cp1", enRouteKey: null },
+    { id: "cp2", code: "CP2", name: "北潭坳", km: 25.4, key: "cp2", enRouteKey: null },
+    { id: "cp3", code: "CP3", name: "企嶺下", km: 34.1, key: "cp3", enRouteKey: null },
+    { id: "cp4", code: "CP4", name: "基維爾營", km: 47.8, key: "cp4", enRouteKey: null },
+    { id: "cp5", code: "CP5", name: "畢架山", km: 55.1, key: "cp5", enRouteKey: null },
+    { id: "cp6", code: "CP6", name: "走私坳", km: 61.1, key: "cp6", enRouteKey: null },
+    { id: "cp7", code: "CP7", name: "鉛礦坳", km: 73.1, key: "cp7", enRouteKey: "before_cp7" },
+    { id: "cp8", code: "CP8", name: "大帽山", km: 82.5, key: "cp8", enRouteKey: null },
+    { id: "cp9", code: "CP9", name: "大欖涌", km: 93.1, key: "cp9", enRouteKey: null },
+    { id: "cp10", code: "CP10", name: "哈羅（終點）", km: 100, key: "finish", enRouteKey: null },
   ];
 
   const els = {
@@ -328,7 +328,7 @@
       const prevKm = cpIndex === 0 ? 0 : CHECKPOINTS[cpIndex - 1].km;
       const legKm = Math.round((cp.km - prevKm) * 10) / 10;
       return `<tr>
-        <td>${cp.code}<br/><small style="color:var(--muted)">呢段 ${legKm} km</small></td>
+        <td>${cp.code} ${cp.name}<br/><small style="color:var(--muted)">呢段 ${legKm} km</small></td>
         ${times
           .map((cum, i) => {
             const leg = segmentMinutes(cp.key, i);
