@@ -30,7 +30,7 @@
     const thead = els.paceTable.querySelector("thead");
     const tbody = els.paceTable.querySelector("tbody");
     thead.innerHTML = `<tr><th>位置</th>${S.TARGETS.map(
-      (g) => `<th class="${g === 22 ? "highlight" : ""}">${g}h</th>`
+      (g) => `<th>${g}h</th>`
     ).join("")}</tr>`;
 
     tbody.innerHTML = route
@@ -47,8 +47,7 @@
           ${point.times
             .map((cum, i) => {
               const leg = S.segmentMinutesFromRoute(route, index, i);
-              const cls = S.TARGETS[i] === 22 ? "highlight" : "";
-              return `<td class="${cls}">
+              return `<td>
                 <span class="cell-elapsed">${S.minutesOnlyLabel(leg)}</span>
                 <span class="cell-eta">${S.formatEtaClock(cum)}</span>
               </td>`;
