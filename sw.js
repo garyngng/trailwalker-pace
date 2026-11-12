@@ -1,4 +1,4 @@
-const CACHE = "trailwalker-pace-v13";
+const CACHE = "trailwalker-pace-v14";
 const ASSETS = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const ASSETS = [
   "./shared.js",
   "./manifest.webmanifest",
   "./icon.svg",
+  "./AGENTS.md",
 ];
 
 self.addEventListener("install", (event) => {

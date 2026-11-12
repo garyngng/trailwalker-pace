@@ -29,8 +29,8 @@
   function renderTable() {
     const thead = els.paceTable.querySelector("thead");
     const tbody = els.paceTable.querySelector("tbody");
-    thead.innerHTML = `<tr><th>位置</th>${S.TARGETS.map(
-      (g) => `<th>${g}h</th>`
+    thead.innerHTML = `<tr><th scope="col">位置</th>${S.TARGETS.map(
+      (g) => `<th scope="col">${g}h</th>`
     ).join("")}</tr>`;
 
     tbody.innerHTML = route
@@ -43,7 +43,7 @@
             : `${point.code} · ${point.name}<br/><small style="color:var(--muted)">呢段 ${legKm} km · 累積 ${point.km} km</small>`;
 
         return `<tr class="${rowClass}" data-index="${index}">
-          <td>${label}</td>
+          <th scope="row">${label}</th>
           ${point.times
             .map((cum, i) => {
               const leg = S.segmentMinutesFromRoute(route, index, i);

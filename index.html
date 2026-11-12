@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a3a2a" />
+  <meta name="theme-color" content="#163326" />
+  <meta name="color-scheme" content="dark" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="manifest.webmanifest" />
@@ -21,12 +22,12 @@
   <header class="hero">
     <p class="eyebrow">Oxfam Trailwalker · 2026.11.20 · <span class="test-badge">測試版</span></p>
     <h1>毅行者<span>配速</span></h1>
-    <p class="tagline">可輸入出發同到達時間試計目標時段</p>
+    <p class="tagline">撳檢查站即計公里同目標時段；知自己行到邊</p>
     <div class="start-chip">
-      <span class="dot"></span>
+      <span class="dot" aria-hidden="true"></span>
       <span>正式出發 <strong>08:00</strong></span>
-      <span class="sep">·</span>
-      <span id="liveClock">--:--:--</span>
+      <span class="sep" aria-hidden="true">·</span>
+      <span id="liveClock" aria-live="polite">--:--:--</span>
     </div>
     <nav class="page-nav" aria-label="頁面切換">
       <a href="index.html" aria-current="page">跑手版</a>
@@ -35,37 +36,6 @@
   </header>
 
   <main>
-    <section class="test-panel" aria-labelledby="testHeading">
-      <div class="section-head">
-        <h2 id="testHeading">測試模式</h2>
-        <p>自己填出發時間同到達時間，即刻睇你喺邊個目標範圍</p>
-      </div>
-      <div class="manual-form test-form">
-        <label>
-          檢查站
-          <select id="manualCp"></select>
-        </label>
-        <label>
-          出發時間
-          <input type="datetime-local" id="manualStart" />
-        </label>
-        <label>
-          到達時間
-          <input type="datetime-local" id="manualTime" />
-        </label>
-        <div class="test-actions">
-          <button type="button" class="primary-btn" id="manualSubmit">計算配速</button>
-          <button type="button" class="ghost-btn" id="fillRaceDefault">填正式賽日 08:00</button>
-        </div>
-        <div class="preset-row" role="group" aria-label="快速示範">
-          <span class="preset-label">快速示範</span>
-          <button type="button" class="preset-btn" data-preset="18h-cp5">CP5 · 約 18h</button>
-          <button type="button" class="preset-btn" data-preset="22h-cp4">CP4 · 約 22h</button>
-          <button type="button" class="preset-btn" data-preset="26h-cp7">CP7 · 約 26h</button>
-        </div>
-      </div>
-    </section>
-
     <section class="cp-section" aria-labelledby="cpHeading">
       <div class="section-head">
         <h2 id="cpHeading">比賽日即撳 CP</h2>
@@ -139,13 +109,49 @@
       <div class="bracket-list" id="bracketList" aria-label="各目標到達時間"></div>
     </section>
 
-    <section class="table-section">
+    <section class="test-panel" aria-labelledby="testHeading">
+      <details>
+        <summary id="testHeading">測試模式：輸入出發／到達時間</summary>
+        <div class="manual-form test-form">
+          <label>
+            檢查站
+            <select id="manualCp"></select>
+          </label>
+          <label>
+            出發時間
+            <input type="datetime-local" id="manualStart" required />
+          </label>
+          <label>
+            到達時間
+            <input type="datetime-local" id="manualTime" required />
+          </label>
+          <div class="test-actions">
+            <button type="button" class="primary-btn" id="manualSubmit">計算配速</button>
+            <button type="button" class="ghost-btn" id="fillRaceDefault">填正式賽日 08:00</button>
+          </div>
+          <div class="preset-row" role="group" aria-label="快速示範">
+            <span class="preset-label">快速示範</span>
+            <button type="button" class="preset-btn" data-preset="18h-cp5">CP5 · 約 18h</button>
+            <button type="button" class="preset-btn" data-preset="22h-cp4">CP4 · 約 22h</button>
+            <button type="button" class="preset-btn" data-preset="26h-cp7">CP7 · 約 26h</button>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="table-section" aria-labelledby="tableHeading">
       <div class="section-head">
-        <h2>參考時間表</h2>
+        <h2 id="tableHeading">參考時間表</h2>
         <p>左邊係呢段距離 · 上排呢段所需分鐘 · 下排預計到達（08:00）</p>
       </div>
-      <div class="table-wrap">
+      <div
+        class="table-wrap"
+        tabindex="0"
+        role="region"
+        aria-labelledby="tableCaption"
+      >
         <table id="paceTable">
+          <caption id="tableCaption">18–28 小時目標 · 每段所需分鐘同預計到達時間</caption>
           <thead></thead>
           <tbody></tbody>
         </table>
@@ -155,9 +161,9 @@
   </main>
 
   <footer>
-    <p>Trailwalker Pace · 100km · 本地儲存你嘅紀錄</p>
+    <p>Trailwalker Pace · 100km · 本地儲存你嘅紀錄 · <a href="support.html">支援版</a></p>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js" type="module"></script>
 </body>
 </html>

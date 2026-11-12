@@ -2,6 +2,8 @@
 
 手機友善嘅 Oxfam Trailwalker 100km 配速追蹤網頁。
 
+本專案 UI 依 [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance) 實作；之後改網頁請先跟 `AGENTS.md` 用呢套 skill。
+
 - 比賽日：2026-11-20，08:00（香港時間）出發
 - 撳 CP1–CP10 即攞電話而家時間
 - 顯示已行公里、剩餘距離、目標時段（含 18 小時插值）

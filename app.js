@@ -319,8 +319,8 @@
   function renderTable() {
     const thead = els.paceTable.querySelector("thead");
     const tbody = els.paceTable.querySelector("tbody");
-    thead.innerHTML = `<tr><th>檢查站</th>${TARGETS.map(
-      (g) => `<th>${g}h</th>`
+    thead.innerHTML = `<tr><th scope="col">檢查站</th>${TARGETS.map(
+      (g) => `<th scope="col">${g}h</th>`
     ).join("")}</tr>`;
 
     tbody.innerHTML = CHECKPOINTS.map((cp, cpIndex) => {
@@ -328,7 +328,7 @@
       const prevKm = cpIndex === 0 ? 0 : CHECKPOINTS[cpIndex - 1].km;
       const legKm = Math.round((cp.km - prevKm) * 10) / 10;
       return `<tr>
-        <td>${cp.code} ${cp.name}<br/><small style="color:var(--muted)">呢段 ${legKm} km</small></td>
+        <th scope="row">${cp.code} ${cp.name}<br/><small style="color:var(--muted)">呢段 ${legKm} km</small></th>
         ${times
           .map((cum, i) => {
             const leg = segmentMinutes(cp.key, i);
@@ -340,6 +340,14 @@
           .join("")}
       </tr>`;
     }).join("");
+  }
+
+  function withViewTransition(update) {
+    if (document.startViewTransition) {
+      document.startViewTransition(update);
+    } else {
+      update();
+    }
   }
 
   function chipHtml(items, highlightSet = null) {
@@ -397,6 +405,7 @@
     const pct = Math.min(100, (cp.km / TOTAL_KM) * 100);
     const left = Math.max(0, TOTAL_KM - cp.km);
 
+    const paint = () => {
     els.result.hidden = false;
     els.resultCpLabel.textContent = cp.code;
     els.resultTitle.textContent = cp.name;
@@ -451,6 +460,9 @@
     }
 
     els.result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    };
+
+    withViewTransition(paint);
   }
 
   function fillRaceDefaults() {

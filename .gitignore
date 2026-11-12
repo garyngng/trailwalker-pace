@@ -1,0 +1,4 @@
+.DS_Store
+node_modules/
+.npm/
+.agents/skills/modern-web-guidance/guides/
